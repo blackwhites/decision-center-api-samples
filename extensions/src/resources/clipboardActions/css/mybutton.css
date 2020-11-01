@@ -1,0 +1,9 @@
+
+
+#CopyClipboardButtonIcon {
+	background: url('../images/ruletoclipboard.png') no-repeat transparent left center;
+}
+
+#PasteClipboardButtonIcon {
+	background: url('../images/clipboardtopack.png') no-repeat transparent left center;
+}
