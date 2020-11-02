@@ -7,7 +7,7 @@ samples of ODM DC API
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Features
-- [extensions](tree/master/extensions):  provides samples of Business Consoles extensions
+- [extensions](extensions):  provides samples of Business Consoles extensions
 
 ## Requirements
 - ODM installation
