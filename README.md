@@ -24,7 +24,7 @@ samples of ODM DC API
 For issues and suggestions please use the [GitHub issue tracker](../../issues).
 
 # License
-TThis project are licensed under the [Apache License 2.0](LICENSE).
+This project are licensed under the [Apache License 2.0](LICENSE).
 
 # Notice
 © Copyright IBM Corporation 2020.
