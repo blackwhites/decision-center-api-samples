@@ -34,7 +34,7 @@ define(["dojo/_base/declare",
 			// Adds a new button
 			
 			// Loads CSS file to style the button
-			this.loadCss('/extensions/css/mybutton.css');
+			this.loadCss('/extensions/css/clipboardActions.css');
 			
 			this.addToolbarButton('PasteClipboardButton', 'Paste to Package', lang.hitch(this, function() { this._onPaste(data) }));
 			this.addToolbarButton('CopyClipboardButton', 'Copy to Clipboard', lang.hitch(this, function() { this._onCopyToClipboard(data) }));
@@ -96,7 +96,7 @@ define(["dojo/_base/declare",
 			if (params.target.length == 0)
 				return;
 			
-			this.sendRequest('/ext/custom/copyToBranch',
+			this.sendRequest('/ext/clipboard/copyToBranch',
 			{ onSuccess : onSuccess, onError: onError, parameters: params},
 			 'POST');
 		},		
@@ -137,7 +137,7 @@ define(["dojo/_base/declare",
 				};
 				
 				// Send an HTTP request to get data from the server
-				this.sendRequest('/ext/custom/saveToClipboard', 
+				this.sendRequest('/ext/clipboard/saveToClipboard', 
 						{ onSuccess : onSuccess, onError: onError, parameters: params},
 						'POST');
 			}

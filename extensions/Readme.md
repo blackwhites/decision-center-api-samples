@@ -2,9 +2,11 @@
 
 ## Extending
 1. Add your custom controller in a package com.ibm.rules.decisioncenter.web.myController  
-1. Add resources for this controller in a folder resources/myController   
+1. Add resources for this controller in a folder resources/extensions   
 1. Add you entry point in the preferences.properties in resources/com/ibm/rules/decisioncenter/web  
 1. Redeploy the BCExtensions.jar in DecisionCenter.war/WEB-INF/lib
+
+This solution is build using the dependencies from [this project](https://github.com/ODMDev/odm-libs-in-maven/blob/master/README.md) and an installation of ODM.
 
 ## Using
 

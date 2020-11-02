@@ -2,11 +2,25 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ibm.odm</groupId>
   <artifactId>BCExtensions</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
+  
+  <properties>
+		<odm.version>8.10.2.2</odm.version>
+		<repositoryId>odm-snapshots</repositoryId>
+		<repositoryUrl>https://eu.artifactory.swg-devops.com:443/artifactory/hyc-ai-tribe-l3-team-odm-release-maven-local</repositoryUrl>
+	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>${repositoryId}</id>
+			<url>${repositoryUrl}</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
  <dependencies><dependency>
     <groupId>com.ibm.odm</groupId>
     <artifactId>decisioncenter-dependencies</artifactId>
-    <version>8.10.2.2</version>
+    <version>${odm.version}</version>
     <type>pom</type>
 </dependency>
 </dependencies>    

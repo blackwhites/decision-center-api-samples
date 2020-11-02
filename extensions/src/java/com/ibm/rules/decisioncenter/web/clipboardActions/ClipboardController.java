@@ -39,22 +39,27 @@ import ilog.rules.teamserver.model.IlrSession;
  */
 
 @Controller
+@RequestMapping("/ext/clipboard")
 public class ClipboardController {
 
-	// clipboard define per thread, each user has its own
-	private ThreadLocal<JSONArray> CLIPBOARDLOCAL = new ThreadLocal<>();
 	private static Logger LOGGER = Logger.getLogger(ClipboardController.class.getName());
-
-	@RequestMapping(value = "/ext/custom/saveToClipboard", method = RequestMethod.POST)
+	private static String CLIPBOARD_ATT = "clipboard";
+	
+	@RequestMapping(value = "/saveToClipboard", method = RequestMethod.POST)
 	public @ResponseStatus(HttpStatus.NO_CONTENT) void addToClipboard(
 			@RequestParam(value = "branchId", required = true) String branchId,
 			@RequestParam(value = "rulesId", required = false) String[] RulesId) throws IlrApplicationException {
 		
 		// clear the clipboard
-		JSONArray CLIPBOARD =  new JSONArray();
+		IlrSession session = ExtUtils.retrieveSession();
 		if (RulesId == null || RulesId.length == 0)
+		{
+			session.removeAttribute(CLIPBOARD_ATT);
 			return;
+		}
+		
 		// add new element if any
+		JSONArray CLIPBOARD =  new JSONArray();
 		for (int i = 0; i < RulesId.length; i++) {
 			JSONObject rule = new JSONObject();
 			rule.put("branchId", branchId);
@@ -62,7 +67,7 @@ public class ClipboardController {
 			LOGGER.info("adding to clipboard: "+ rule);
 			CLIPBOARD.add(rule);
 		}
-		CLIPBOARDLOCAL.set(CLIPBOARD);
+		session.setAttribute(CLIPBOARD_ATT, CLIPBOARD);
 	}
 
 	/**
@@ -71,12 +76,12 @@ public class ClipboardController {
 	 * copy the rules in the clipboard to each folder listed in target. If the folderId is a project,
 	 * rules are copied at the root of this project.
 	 */
-	@RequestMapping(value = "/ext/custom/copyToBranch", method = RequestMethod.POST)
+	@RequestMapping(value = "/copyToBranch", method = RequestMethod.POST)
 	public @ResponseStatus(HttpStatus.NO_CONTENT) void saveToFolder(
 			@RequestParam(value = "target", required = true) String[] target) throws IlrApplicationException {
 		IlrSession session = ExtUtils.retrieveSession();
 		List<List<IlrElementDetails>> targetPackages = new ArrayList<>();
-		JSONArray CLIPBOARD = CLIPBOARDLOCAL.get();
+		JSONArray CLIPBOARD = (JSONArray) session.getAttribute(CLIPBOARD_ATT);
 		if (CLIPBOARD == null || CLIPBOARD.isEmpty())
 			throw (new IlrIllegalArgumentRuntimeException("No artifact in clipboard"));
 
