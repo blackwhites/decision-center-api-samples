@@ -1,6 +1,8 @@
 # API DC Samples
 
-samples of ODM DC API
+This repository provides a number of samples of customization of Decision Center using API.  
+Covering remote client application, Business Console extensions, custom value providers.
+
 
 [![GitHub release](https://img.shields.io/github/release/ODMDev/odm-libs-in-maven.svg)](https://github.com/ODMDev/odm-api-dc/releases)
 ![GitHub last commit](https://img.shields.io/github/last-commit/ODMDev/odm-api-dc)
@@ -10,9 +12,9 @@ samples of ODM DC API
 - [extensions](extensions):  provides samples of Business Consoles extensions
 
 ## Requirements
-- ODM installation
 - Maven
-- [Dependencies](https://github.com/ODMDev/odm-libs-in-maven/blob/master/README.md)
+- ODM dependencies in Maven for easy build.   
+See how to deploy your version of ODM Libraries in a maven repository using [odm libs](https://github.com/ODMDev/odm-libs-in-maven/blob/master/README.md)
 
 ## Contributing
 - We welcome contributions following [our guidelines](CONTRIBUTING.md).
@@ -21,10 +23,10 @@ samples of ODM DC API
 - Each sample is provided with specific instructions.
 
 # Issues and contributions
-For issues and suggestions please use the [GitHub issue tracker](../../issues).
+For issues and suggestions please use the [GitHub issue tracker](../../issues), remember to specify the feature you are using.
 
 # License
-This project are licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 # Notice
 © Copyright IBM Corporation 2020.
