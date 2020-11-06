@@ -4,8 +4,8 @@ This repository provides a number of samples of customization of Decision Center
 Covering remote client application, Business Console extensions, custom value providers.
 
 
-[![GitHub release](https://img.shields.io/github/release/ODMDev/odm-libs-in-maven.svg)](https://github.com/ODMDev/odm-api-dc/releases)
-![GitHub last commit](https://img.shields.io/github/last-commit/ODMDev/odm-api-dc)
+[![GitHub release](https://img.shields.io/github/release/ODMDev/odmdecision-center-api-samples.svg)](https://github.com/ODMDev/decision-center-api-samples/releases)
+![GitHub last commit](https://img.shields.io/github/last-commit/ODMDev/decision-center-api-samples)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Features
