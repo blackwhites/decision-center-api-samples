@@ -11,7 +11,7 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Installing
 
-- Download the [release](https://github.ibm.com/odm-l3-services/api-dc/releases/tag/1.0.0)
+- Download the [release](/releases/tag/1.0.0)
 - Add the jar BCExtensions into DecisionCenter.war in WEB-INF/lib
 - Redeploy the application
 
