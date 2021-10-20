@@ -17,18 +17,20 @@ Add the jar [configure-dt-0.0.1-SNAPSHOT.jar](https://github.com/ODMDev/decision
 
 ## Usage
 
-- run 
-java -cp "<odm_home>/teamserver/lib/*:<odm_home>/teamserver/lib/eclipse_plugins/*:" com.ibm.odm.tools.ConfigureDT
+On Linux  
+```java -cp "<odm_home>/teamserver/lib/*:<odm_home>/teamserver/lib/eclipse_plugins/*:" com.ibm.odm.tools.ConfigureDT -username <username> -password <password> -url <url> -dataSource <dataSource> -decisionService <dsName> [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false]```
 
-  java com.ibm.odm.tools.ConfigureDT -username username -password password -url url -dataSource dataSource -decisionService <dsName> [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false]   
-	Update all decision tables properties according to option selected in the decision service selected  
-	If an option is not selected the property is not modified. At least one option must be selected  
+On Windows  
+```java -cp "<odm_home>\teamserver\lib\*;<odm_home>\teamserver\lib\eclipse_plugins\*;" com.ibm.odm.tools.ConfigureDT -username <username> -password <password> -url <url> -dataSource <dataSource> -decisionService <dsName> [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false]```
+
+- Update all decision tables properties according to option selected in the decision service *dsName*  
+- If an option is not selected the property is not modified. At least one option must be selected  
 
 ### Arguments
 
--username        : an administrator account   
--password        : the user password  
--url             : decision center URL   
+-username        : an administrator account     
+-password        : the user password    
+-url             : decision center URL  (```http://server:port/decisioncenter```)    
 -dataSource      : the JNDI name of the datasource usually jdbc/ilogDataSource  
 -decisionService : the decision service name  
 -overlapCheck    : set false to disable overlap check on all DT and true to enable it. If this option is not defined the property is not modified  
