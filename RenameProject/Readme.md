@@ -2,7 +2,7 @@
 
 This tool allows to rename a rule project in Decision Center. 
 
-## Compiling
+## Building
 
 This solution is build using the dependencies from [this project](https://github.com/ODMDev/odm-libs-in-maven/blob/master/README.md) and an installation of ODM.
 
@@ -17,17 +17,19 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Usage
 
-- run 
-java -cp "<odm_home>/teamserver/lib/*:<odm_home>/teamserver/lib/eclipse_plugins/*:" com.ibm.odm.tools.RenameProject
+On Linux   
+```java -cp "<odm_home>/teamserver/lib/*:<odm_home>/teamserver/lib/eclipse_plugins/*:" com.ibm.odm.tools.RenameProject -username <username> -password <password> -url <url> -dataSource <dataSource> -ruleProject <projectName> -to <newName>```
 
-  java com.ibm.odm.tools.RenameProject -username username -password password -url url -dataSource dataSource -ruleProject <projectName> -to <newName>   
-	rename the rule project and update dependencies in all branches.
+On Windows   
+```java -cp "<odm_home>\teamserver\lib\*;<odm_home>\teamserver\lib\eclipse_plugins\*;" com.ibm.odm.tools.RenameProject -username <username> -password <password> -url <url> -dataSource <dataSource> -ruleProject <projectName> -to <newName>```
 
-### Arguments
+rename the rule project *projectName* into *newName* and update dependencies to this project in all branches.
 
--username        : an administrator account   
--password        : the user password  
--url             : decision center URL   
--dataSource      : the JNDI name of the datasource usually jdbc/ilogDataSource  
--ruleProject     : the name of the rule project to rename
--to              : the new name of the rule project
+### Parameters
+
+**-username**        : an administrator account   
+**-password**        : the user password  
+**-url**             : decision center URL  (```http://server:port/decisioncenter```)    
+**-dataSource**      : the JNDI name of the datasource usually jdbc/ilogDataSource  
+**-ruleProject**     : the name of the rule project to rename   
+**-to**              : the new name of the rule project   
