@@ -13,8 +13,7 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Installing
 
-- Download the [release](https://github.ibm.com/odm-l3-services/api-dc/releases/tag/2.0.0)
-- Add the jar configure-dt.jar in teamserver/lib folder
+- Add the jar [configure-dt-0.0.2.jar](https://github.com/ODMDev/decision-center-api-samples/raw/master/configureDT/configure-dt-0.0.2.jar) in teamserver/lib folder
 
 ## Usage
 
