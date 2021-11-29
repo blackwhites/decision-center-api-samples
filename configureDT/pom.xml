@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ibm.odm.tools</groupId>
   <artifactId>configure-dt</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
  <properties>
-		<odm.version>8.10.2.2</odm.version>
+		<odm.version>8.10.5.0</odm.version>
 		<repositoryId>odm-snapshots</repositoryId>
 		<repositoryUrl>https://eu.artifactory.swg-devops.com:443/artifactory/hyc-ai-tribe-l3-team-odm-release-maven-local</repositoryUrl>
 	</properties>

@@ -25,10 +25,15 @@ import ilog.rules.teamserver.model.finders.DataFinder;
 
 public class ConfigureDT extends BRMServerClient {
 	private final static String DS_ARGNAME = "-decisionService";
+	private final static String BRANCH_ARGNAME ="-branch";
 	private final static String GAPCHECK_ARGNAME = "-gapCheck";
 	private final static String OVERLAPCHECK_ARGNAME = "-overlapCheck";
 	private final static String AUTORESIZE_ARGNAME = "-autoResize";
 	private final static String ORDERING_ARGNAME = "-manualOrdering";
+	private String username;
+	private String password;
+	private String url;
+	private String dataSource;
 
 	@Override
 	protected void execute(String username, String password, String url, String dataSource, String[] otherArgs) {
@@ -37,7 +42,7 @@ public class ConfigureDT extends BRMServerClient {
 		String overlapCheck = null;
 		String autoResize = null;
 		String manualOrdering = null;
-
+		String branch = null;
 		if (username == null || password == null || url == null || otherArgs.length < 2) {
 			usage();
 			return;
@@ -54,6 +59,9 @@ public class ConfigureDT extends BRMServerClient {
 			switch (param) {
 			case DS_ARGNAME:
 				dsName = value;
+				break;
+			case BRANCH_ARGNAME:
+				branch = value;
 				break;
 			case GAPCHECK_ARGNAME:
 				gapCheck = booleanValue(value);
@@ -80,31 +88,44 @@ public class ConfigureDT extends BRMServerClient {
 		}
 		System.out.println("Configure DT properties in decision service '" + dsName + "'");
 
+		setSession(username, password, url, dataSource);
 		IlrSession dataProvider = null;
 		try {
 			IlrRuleProject dsProject;
 			try {
-				dataProvider = getSession(username, password, url, dataSource);
+				dataProvider = getSession();
 				dsProject = IlrSessionHelper.getProjectNamed(dataProvider, dsName);
 				if (dsProject == null) {
 					System.out.println("Did not find decision service '" + dsName + "'.");
 					return;
 				}
 
-				List<IlrBaseline> baselines = IlrSessionHelper.getBaselines(dataProvider, dsProject);
-
-				for (IlrBaseline ilrBaseline : baselines) {
-					// only process branches
-					if (ilrBaseline.getBaselineKind().equals(IlrBaselineKind.BRANCH_LITERAL)) {
-						// if the branch is managed and complete do not modify
-						if (((IlrBranch)ilrBaseline).isInstanceOf(dataProvider.getBrmPackage().getManagedBranch().getName())) {
-							IlrManagedBranch branch = (IlrManagedBranch) ilrBaseline;
-							if (branch.getStatus().equals("Complete"))
-							{
-								continue;
+				
+				if (branch !=null)
+				{
+					IlrBaseline  bsln =IlrSessionHelper.getBaselineNamed(dataProvider, dsProject, branch);
+					if (bsln != null && bsln.isBranch() )
+					{
+						updateBranch( bsln, gapCheck, overlapCheck, autoResize, manualOrdering);
+					}
+				}
+				else
+				{
+					List<IlrBaseline> baselines = IlrSessionHelper.getBaselines(dataProvider, dsProject);
+	
+					for (IlrBaseline ilrBaseline : baselines) {
+						// only process branches
+						if (ilrBaseline.getBaselineKind().equals(IlrBaselineKind.BRANCH_LITERAL)) {
+							// if the branch is managed and complete do not modify
+							if (((IlrBranch)ilrBaseline).isInstanceOf(dataProvider.getBrmPackage().getManagedBranch().getName())) {
+								IlrManagedBranch branchWork = (IlrManagedBranch) ilrBaseline;
+								if (branchWork.getStatus().equals("Complete"))
+								{
+									continue;
+								}
 							}
+							updateBranch( ilrBaseline, gapCheck, overlapCheck, autoResize, manualOrdering);
 						}
-						updateBranch(dataProvider, ilrBaseline, gapCheck, overlapCheck, autoResize, manualOrdering);
 					}
 				}
 			} finally {
@@ -123,9 +144,11 @@ public class ConfigureDT extends BRMServerClient {
 	}
 
 	//update recursively the DT in this branch of the decision service and all the referenced branch of sub projects
-	private void updateBranch(IlrSession dataProvider, IlrBaseline ilrBaseline, String gapCheck, String overlapCheck,
-			String autoResize, String manualOrdering) throws IlrApplicationException {
+	private void updateBranch( IlrBaseline ilrBaseline, String gapCheck, String overlapCheck,
+			String autoResize, String manualOrdering) throws IlrApplicationException, IlrConnectException {
 		// TODO Auto-generated method stub
+
+		IlrSession dataProvider = getSession();
 		IlrBrmPackage brm = dataProvider.getBrmPackage();
 		Locale locale = dataProvider.getReferenceLocale();
 		DataFinder finder = DataFinder.createDataFinder(brm.getDecisionTable()).setUseDependencies(false);
@@ -138,8 +161,10 @@ public class ConfigureDT extends BRMServerClient {
 		}
 		List<IlrBaseline> subBranches = IlrSessionHelper.computeAccessibleDependentBaselines(dataProvider,ilrBaseline);
 		for (IlrBaseline subBranch : subBranches) {
-			updateBranch(dataProvider, subBranch, gapCheck, overlapCheck, autoResize, manualOrdering);
+			updateBranch( subBranch, gapCheck, overlapCheck, autoResize, manualOrdering);
 		}
+		dataProvider.close();
+		
 	}
 
 	private void updateDT(IlrSession dataProvider, IlrDecisionTable table, String gapCheck, String overlapCheck,
@@ -232,7 +257,15 @@ public class ConfigureDT extends BRMServerClient {
 		(new ConfigureDT()).doExecute(args);
 	}
 
-	private IlrSession getSession(String username, String password, String url, String dataSource)
+	private void setSession(String username, String password, String url, String dataSource)
+	{
+		this.username = username;
+		this.password = password;
+		this.url = url;
+		this.dataSource = dataSource;	
+	}
+	
+	private IlrSession getSession()
 			throws IlrConnectException {
 		IlrSession res;
 		IlrRemoteSessionFactory factory = new IlrRemoteSessionFactory();
