@@ -30,6 +30,7 @@ public class ConfigureDT extends BRMServerClient {
 	private final static String OVERLAPCHECK_ARGNAME = "-overlapCheck";
 	private final static String AUTORESIZE_ARGNAME = "-autoResize";
 	private final static String ORDERING_ARGNAME = "-manualOrdering";
+	private final static String HIDDENCOLUMN_ARGNAME = "-unhideColumns";
 	private String username;
 	private String password;
 	private String url;
@@ -43,6 +44,7 @@ public class ConfigureDT extends BRMServerClient {
 		String autoResize = null;
 		String manualOrdering = null;
 		String branch = null;
+		String unhideColumns = null;
 		if (username == null || password == null || url == null || otherArgs.length < 2) {
 			usage();
 			return;
@@ -74,6 +76,8 @@ public class ConfigureDT extends BRMServerClient {
 			case ORDERING_ARGNAME:
 				manualOrdering = booleanValue(value);
 				break;
+			case HIDDENCOLUMN_ARGNAME:
+				unhideColumns = booleanValue(value);
 			default:
 				System.out.println(" unexpected argument " + param);
 				usage();
@@ -106,7 +110,7 @@ public class ConfigureDT extends BRMServerClient {
 					IlrBaseline  bsln =IlrSessionHelper.getBaselineNamed(dataProvider, dsProject, branch);
 					if (bsln != null && bsln.isBranch() )
 					{
-						updateBranch( bsln, gapCheck, overlapCheck, autoResize, manualOrdering);
+						updateBranch( bsln, gapCheck, overlapCheck, autoResize, manualOrdering, unhideColumns);
 					}
 				}
 				else
@@ -124,7 +128,7 @@ public class ConfigureDT extends BRMServerClient {
 									continue;
 								}
 							}
-							updateBranch( ilrBaseline, gapCheck, overlapCheck, autoResize, manualOrdering);
+							updateBranch( ilrBaseline, gapCheck, overlapCheck, autoResize, manualOrdering, unhideColumns);
 						}
 					}
 				}
@@ -145,7 +149,7 @@ public class ConfigureDT extends BRMServerClient {
 
 	//update recursively the DT in this branch of the decision service and all the referenced branch of sub projects
 	private void updateBranch( IlrBaseline ilrBaseline, String gapCheck, String overlapCheck,
-			String autoResize, String manualOrdering) throws IlrApplicationException, IlrConnectException {
+			String autoResize, String manualOrdering, String unhideColumns) throws IlrApplicationException, IlrConnectException {
 		// TODO Auto-generated method stub
 
 		IlrSession dataProvider = getSession();
@@ -156,19 +160,19 @@ public class ConfigureDT extends BRMServerClient {
 		List<IlrElementDetails> tables = finder.findDetails(dataProvider);
 		System.out.println("Updating " + tables.size() + " DT in "+ ilrBaseline.getProject().getName()+ " in branch " + ilrBaseline.getName());
 		for (IlrElementDetails table : tables) {
-			updateDT(dataProvider, (IlrDecisionTable) table, gapCheck, overlapCheck, autoResize, manualOrdering,
+			updateDT(dataProvider, (IlrDecisionTable) table, gapCheck, overlapCheck, autoResize, manualOrdering, unhideColumns,
 					locale);
 		}
 		List<IlrBaseline> subBranches = IlrSessionHelper.computeAccessibleDependentBaselines(dataProvider,ilrBaseline);
 		for (IlrBaseline subBranch : subBranches) {
-			updateBranch( subBranch, gapCheck, overlapCheck, autoResize, manualOrdering);
+			updateBranch( subBranch, gapCheck, overlapCheck, autoResize, manualOrdering, unhideColumns);
 		}
 		dataProvider.close();
 		
 	}
 
 	private void updateDT(IlrSession dataProvider, IlrDecisionTable table, String gapCheck, String overlapCheck,
-			String autoResize, String manualOrdering, Locale locale) {
+			String autoResize, String manualOrdering, String unhideColumns, Locale locale) {
 
 		try {
 			IlrDTController cont;
@@ -181,17 +185,18 @@ public class ConfigureDT extends BRMServerClient {
 
 			if (update) {
 				String definition = IlrSessionHelper.dtControllerToStorableString(dataProvider, cont);
+				if ( unhideColumns.equalsIgnoreCase("true") )
+				{
+					definition = definition.replaceAll("<Property Name=\"Visible\"><!\\[CDATA\\[false\\]\\]></Property>", "<Property Name=\"Visible\"><![CDATA[true]]></Property>");
+				}
 				IlrSessionHelper.setDefinition(dataProvider, table, definition);
 				IlrCommitableObject co = new IlrCommitableObject(table);
 				co.setRootDetails(table);
 				dataProvider.commit(co);
 
 			}
-		} catch (IlrObjectNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IlrApplicationException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			//catch all exception from breaking the update
 			e.printStackTrace();
 		}
 
@@ -247,7 +252,7 @@ public class ConfigureDT extends BRMServerClient {
 	protected String usageArgs() {
 		String newLine = System.lineSeparator();
 		return DS_ARGNAME + " <dsName> [" + OVERLAPCHECK_ARGNAME + " true|false] [" + GAPCHECK_ARGNAME
-				+ " true|false] [" + ORDERING_ARGNAME + " true|false] [" + AUTORESIZE_ARGNAME + " true|false]" + newLine
+				+ " true|false] [" + ORDERING_ARGNAME + " true|false] [" + AUTORESIZE_ARGNAME + " true|false] [" + HIDDENCOLUMN_ARGNAME+ " true]"+  newLine
 				+ "\tUpdate all decision tables properties according to option selected in the decision service selected"
 				+ newLine
 				+ "\tIf an option is not selected the property is not modified. At least one option must be selected";
