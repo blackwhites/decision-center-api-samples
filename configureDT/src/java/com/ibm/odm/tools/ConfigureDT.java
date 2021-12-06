@@ -78,6 +78,7 @@ public class ConfigureDT extends BRMServerClient {
 				break;
 			case HIDDENCOLUMN_ARGNAME:
 				unhideColumns = booleanValue(value);
+				break;
 			default:
 				System.out.println(" unexpected argument " + param);
 				usage();
