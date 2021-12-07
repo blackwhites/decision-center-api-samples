@@ -13,7 +13,7 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Installing
 
-- Add the jar [configure-dt-0.0.4.jar](https://github.com/ODMDev/decision-center-api-samples/raw/master/configureDT/configure-dt-0.0.4.jar) in teamserver/lib folder
+- Add the jar [configure-dt-0.0.5.jar](https://github.com/ODMDev/decision-center-api-samples/raw/master/configureDT/configure-dt-0.0.5.jar) in teamserver/lib folder
 
 ## Usage
 
