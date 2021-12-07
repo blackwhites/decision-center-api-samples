@@ -183,6 +183,7 @@ public class ConfigureDT extends BRMServerClient {
 			update |= updateProperty(cont, "UI.AutoResizeTable", autoResize);
 			update |= updateProperty(cont, "Check.Gap", gapCheck);
 			update |= updateProperty(cont, "Check.Overlap", overlapCheck);
+			update |= unhideColumns.equalsIgnoreCase("true");
 
 			if (update) {
 				String definition = IlrSessionHelper.dtControllerToStorableString(dataProvider, cont);
