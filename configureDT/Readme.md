@@ -13,7 +13,7 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Installing
 
-- Add the jar [configure-dt-0.0.8.jar](configureDT/configure-dt-0.0.8.jar) in $ODM_HOME/teamserver/lib folder
+- Add the jar [configure-dt-0.0.8.jar](configure-dt-0.0.8.jar) in $ODM_HOME/teamserver/lib folder
 
 ## Usage
 
