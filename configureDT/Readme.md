@@ -17,9 +17,13 @@ This solution is build using the dependencies from [this project](https://github
 
 ## Usage
 
-- run:
+- On Windows, run:
 ```
-java -cp "$ODM_HOME/teamserver/lib/*:$ODM_HOME/teamserver/lib/eclipse_plugins/*:" com.ibm.odm.tools.ConfigureDT -username <username> -password <password> -url <url> -dataSource <dataSource> -decisionService "<dsName>" [-branch "<branch name>"] [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false] [-unhideColumns true]
+java -cp "%ODM_HOME%/teamserver/lib/*;%ODM_HOME%/teamserver/lib/eclipse_plugins/*" com.ibm.odm.tools.ConfigureDT -username <username> -password <password> -url <url> -dataSource <dataSource> -decisionService "<dsName>" [-branch "<branch name>"] [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false] [-unhideColumns true]
+```
+- On Linux, run:
+```
+java -cp "$ODM_HOME/teamserver/lib/*:$ODM_HOME/teamserver/lib/eclipse_plugins/*" com.ibm.odm.tools.ConfigureDT -username <username> -password <password> -url <url> -dataSource <dataSource> -decisionService "<dsName>" [-branch "<branch name>"] [-overlapCheck true|false] [-gapCheck true|false] [-manualOrdering true|false] [-autoResize true|false] [-unhideColumns true]
 ```
 
 Update all decision tables properties according to option selected in the decision service selected. 
