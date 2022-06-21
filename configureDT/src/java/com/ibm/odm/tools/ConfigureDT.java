@@ -192,7 +192,7 @@ public class ConfigureDT extends BRMServerClient {
 			update |= updateProperty(cont, "UI.AutoResizeTable", autoResize);
 			update |= updateProperty(cont, "Check.Gap", gapCheck);
 			update |= updateProperty(cont, "Check.Overlap", overlapCheck);
-			update |= unhideColumns.equalsIgnoreCase("true");
+			update |= "true".equalsIgnoreCase(unhideColumns);
 
 			if (update) {
 				String definition = null;
